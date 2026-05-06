@@ -12,7 +12,7 @@ import org.springframework.data.annotation.Id;
 @Entity
 @Table(name = "Staff medico")
 
-public class staff {
+public class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long num_registro;
