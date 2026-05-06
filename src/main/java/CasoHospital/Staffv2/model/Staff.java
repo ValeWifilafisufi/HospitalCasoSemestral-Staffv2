@@ -4,29 +4,30 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Staff medico")
+@Table(name = "staff_medico")
 
 public class Staff {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long num_registro;
 
-    @Column(nullable = false, unique = false)
+    @Column(name = "run", nullable = false, unique = true)
     private Long numrun;
 
     @Column(nullable = false)
     private String nombre;
 
-    @Column(nullable = false)
+    @Column(name = "apellido_paterno", nullable = false)
     private String p_apellido;
 
-    @Column(nullable = false)
+    @Column(name = "apellido_materno", nullable = false)
     private String m_apellido;
 
     @ManyToOne
