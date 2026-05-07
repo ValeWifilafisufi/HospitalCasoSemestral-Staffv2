@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 
 public class StaffService {
-
     private final StaffRepository staffRepository;
 
     private StaffResponseDTO mapToDto(Staff staff) {
@@ -30,23 +29,25 @@ public class StaffService {
 
     public List<StaffResponseDTO> obtenerTodos() {
         return staffRepository.findAll().stream()
-                .map(this::mapToDto).collect(Collectors.toList());
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Staff> buscarPorNroRegistro(Long numRegistro) {
-        return staffRepository.findById(numRegistro);
+    public Optional<StaffResponseDTO> buscarPorNroRegistro(Long numRegistro) {
+        return staffRepository.findById(numRegistro)
+                .map(this::mapToDto);
     }
 
-    public List<Staff> buscarPorRun(Long numrun) {
-        return staffRepository.findByNumrunContainingIgnoreCase(numrun);
+    public List<StaffResponseDTO> buscarPorRun(Long numrun) {
+        return staffRepository.findByNumrun(numrun)
+                .stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
     }
 
-    public List<Staff> buscarPorEspecialidad(String esp) {
-        return staffRepository.findByEspecialidad(esp);
-    }
-
-    public Staff guardar(Staff newstaff){
-        return staffRepository.save(newstaff);
+    public StaffResponseDTO guardar(Staff newstaff){
+        Staff staffnuevo = staffRepository.save(newstaff);
+        return mapToDto(staffnuevo);
     }
 
     public Optional<Staff> actualizar(Long nro, Staff staff){
@@ -56,7 +57,9 @@ public class StaffService {
                     existente.setP_apellido(staff.getP_apellido());
                     existente.setM_apellido(staff.getM_apellido());
                     existente.setNombreesp(staff.getNombreesp());
+
                     return staffRepository.save(existente);
                 });
     }
 }
+

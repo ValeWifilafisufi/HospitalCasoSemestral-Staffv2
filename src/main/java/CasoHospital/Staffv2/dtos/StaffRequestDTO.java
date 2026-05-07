@@ -20,7 +20,8 @@ public class StaffRequestDTO {
     @Positive(message = "El numero de rut debe ser mayor a 0")
     private Long num_registro;
 
-    @NotBlank(message = "El nombre no puede estar vacio")
+    @NotNull(message = "El numero de rut no puede estar vacio")
+    @Positive(message = "El numero de rut debe ser positivo")
     private Long numrun;
 
     @NotBlank(message = "El nombre no puede estar vacio")
@@ -33,7 +34,7 @@ public class StaffRequestDTO {
     private String m_apellido;
 
     @NotBlank(message = "El codigo de  especialidad no puede estar vacio")
-    private Especialidad nombreesp;
+    private Long cod_especialidad;
 
 
 }
