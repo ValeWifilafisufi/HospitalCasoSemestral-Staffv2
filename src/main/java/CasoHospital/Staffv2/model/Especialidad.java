@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 
 
 public class Especialidad {
+
     @Id
     private Long cod_especialidad;
 
