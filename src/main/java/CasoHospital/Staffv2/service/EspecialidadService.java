@@ -34,6 +34,8 @@ public class EspecialidadService {
                 });
     }
 
+
+
     public void eliminar(Long cod){
         especialidadRepository.deleteById(cod);
     }
