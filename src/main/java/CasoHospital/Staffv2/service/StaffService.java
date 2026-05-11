@@ -61,5 +61,8 @@ public class StaffService {
                     return staffRepository.save(existente);
                 });
     }
+
+    public void eliminar(Long id)
+    {staffRepository.deleteById(id);}
 }
 
