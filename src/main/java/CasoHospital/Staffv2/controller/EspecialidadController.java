@@ -23,12 +23,11 @@ public class EspecialidadController {
 
     @GetMapping
     public ResponseEntity<List<Especialidad>> obtenerTodos(){
-        return ResponseEntity.ok(especialidadService.obtenerTodas();
+        return ResponseEntity.ok(especialidadService.obtenerTodas());
     }
 
-    @GetMapping("/id{id}")
+    @GetMapping("/nombre/{nombre}")
     public ResponseEntity<List<Especialidad>> obtenerPorNombre(@PathVariable String nombre){
         return ResponseEntity.ok(especialidadService.buscarPorNombre(nombre));
     }
-
 }

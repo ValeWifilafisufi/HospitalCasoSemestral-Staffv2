@@ -25,13 +25,13 @@ public class StaffController {
         return ResponseEntity.ok(staffService.obtenerTodos());
     }
 
-    @GetMapping("/nro_registro{nro_re}")
+    @GetMapping("/nro_registro/{nro_re}")
     public ResponseEntity<StaffResponseDTO> obtenerPorNroRe(@PathVariable Long nro_re){
         return staffService.buscarPorNroRegistro(nro_re).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/run{run}")
+    @GetMapping("/run/{run}")
     public ResponseEntity<List<StaffResponseDTO>> obtenerPorRun(@PathVariable Long run){
         return ResponseEntity.ok(staffService.buscarPorRun(run));
     }

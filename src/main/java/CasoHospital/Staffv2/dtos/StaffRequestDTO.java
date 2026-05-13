@@ -33,7 +33,8 @@ public class StaffRequestDTO {
     @NotBlank(message = "El apellido materno no puede estar vacio")
     private String m_apellido;
 
-    @NotBlank(message = "El codigo de  especialidad no puede estar vacio")
+    @NotNull(message = "El codigo de  especialidad no puede estar vacio")
+    @Positive(message = "El codigo de la especialidad debe ser mayor que 0")
     private Long cod_especialidad;
 
 

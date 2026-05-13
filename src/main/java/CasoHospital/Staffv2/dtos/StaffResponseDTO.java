@@ -16,5 +16,5 @@ public class StaffResponseDTO {
     private String nombre;
     private String p_apellido;
     private String m_apellido;
-    private Especialidad nombreesp;
+    private String nombreesp;
 }

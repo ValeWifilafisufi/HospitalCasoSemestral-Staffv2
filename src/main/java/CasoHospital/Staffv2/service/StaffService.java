@@ -23,7 +23,7 @@ public class StaffService {
                 staff.getNombre(),
                 staff.getP_apellido(),
                 staff.getM_apellido(),
-                staff.getNombreesp()
+                staff.getNombreesp().getNombreesp()
         );
     }
 
