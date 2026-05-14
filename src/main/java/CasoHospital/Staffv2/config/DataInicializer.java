@@ -1,22 +1,25 @@
 package CasoHospital.Staffv2.config;
 
 import CasoHospital.Staffv2.repository.StaffRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-
-public class DataInicializer {
-
+@Component
+@RequiredArgsConstructor
+@Slf4j
+public class DataInicializer implements CommandLineRunner {
     private final StaffRepository staffRepository;
 
     @Override
     public void run(String... args) {
+
         if (staffRepository.count() > 0) {
-            lon.info(">>> DataInitializer: la BD ya tiene datos, se omite la carga inicial.");
+            log.info("La BD ya tiene datos");
             return;
         }
-        log.info(">>>DataInitializer: BD vacia detextada, insertando datos de prueba...");
 
-
-        log.info(">>>DataInitializer: {} habitaciones insertadas correctamente.",
-                habitacionRepository.count());
+        log.info("BD vacia");
     }
 }

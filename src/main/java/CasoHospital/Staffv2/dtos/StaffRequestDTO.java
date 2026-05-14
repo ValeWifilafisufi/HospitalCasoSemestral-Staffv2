@@ -4,6 +4,7 @@ import CasoHospital.Staffv2.model.Especialidad;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,13 +17,12 @@ import org.springframework.data.annotation.Id;
 
 public class StaffRequestDTO {
 
-    @NotNull(message = "El numero de rut no puede ser nulo")
-    @Positive(message = "El numero de rut debe ser mayor a 0")
-    private Long num_registro;
-
-    @NotNull(message = "El numero de rut no puede estar vacio")
-    @Positive(message = "El numero de rut debe ser positivo")
-    private Long numrun;
+    @NotBlank(message = "El numero de rut no puede estar vacio")
+    @Pattern(
+            regexp = "^[0-9]{7,8}-[0-9kK]$",
+            message =  "El run debe tener formato 12345678-9 o 12345678-K"
+    )
+    private String numrun;
 
     @NotBlank(message = "El nombre no puede estar vacio")
     private String nombre;

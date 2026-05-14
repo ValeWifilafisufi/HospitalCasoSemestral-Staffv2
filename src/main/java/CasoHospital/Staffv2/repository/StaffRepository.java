@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface StaffRepository extends JpaRepository<Staff, Long> {
 
-    List<Staff> findByNumrun(Long numrun);
+    List<Staff> findByNumrunContainingIgnoreCase(String numrun);
 
 }

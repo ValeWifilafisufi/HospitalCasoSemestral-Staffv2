@@ -28,6 +28,7 @@ public class EspecialidadController {
 
     @GetMapping("/nombre/{nombre}")
     public ResponseEntity<List<Especialidad>> obtenerPorNombre(@PathVariable String nombre){
-        return ResponseEntity.ok(especialidadService.buscarPorNombre(nombre));
+        return ResponseEntity.ok(
+                especialidadService.buscarPorNombre(nombre));
     }
 }

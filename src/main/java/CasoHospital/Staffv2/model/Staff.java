@@ -19,7 +19,7 @@ public class Staff {
     private Long num_registro;
 
     @Column(name = "run", nullable = false, unique = true)
-    private Long numrun;
+    private String numrun;
 
     @Column(nullable = false)
     private String nombre;

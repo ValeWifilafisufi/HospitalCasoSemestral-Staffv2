@@ -39,7 +39,7 @@ public class EspecialidadService {
     }
 
     public List<Especialidad> buscarPorNombre(String nombre){
-        return especialidadRepository.findByNombreContainingIgnoreCase(nombre);
+        return especialidadRepository.findByNombreespContainingIgnoreCase(nombre);
     }
 
 

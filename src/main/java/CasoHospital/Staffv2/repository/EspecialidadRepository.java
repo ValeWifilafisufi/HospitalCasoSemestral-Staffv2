@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface EspecialidadRepository extends JpaRepository<Especialidad, Long> {
 
-    List<Especialidad> findByNombreContainingIgnoreCase(String nombre);
-
+    List<Especialidad> findByNombreespContainingIgnoreCase(String nombre);
 }

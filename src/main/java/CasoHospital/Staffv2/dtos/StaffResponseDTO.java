@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class StaffResponseDTO {
 
     private Long num_registro;
-    private Long numrun;
+    private String numrun;
     private String nombre;
     private String p_apellido;
     private String m_apellido;
