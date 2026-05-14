@@ -2,6 +2,7 @@ package CasoHospital.Staffv2.controller;
 
 import CasoHospital.Staffv2.dtos.StaffRequestDTO;
 import CasoHospital.Staffv2.dtos.StaffResponseDTO;
+import CasoHospital.Staffv2.model.Staff;
 import CasoHospital.Staffv2.service.StaffService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,21 @@ public class StaffController {
     public ResponseEntity<StaffResponseDTO> guardar(
             @Valid @RequestBody StaffRequestDTO staff){
         return ResponseEntity.status(201).body(staffService.guardar(staff));
+    }
+
+    @PutMapping("/{nro}")
+    public ResponseEntity<StaffResponseDTO> actualizar(@PathVariable Long nro, @Valid @RequestBody StaffRequestDTO dto){
+        return staffService.actualizar(nro, dto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{nro}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long nro){
+        if (staffService.buscarPorNroRegistro(nro).isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        staffService.eliminar(nro);
+        return ResponseEntity.noContent().build();
     }
 }

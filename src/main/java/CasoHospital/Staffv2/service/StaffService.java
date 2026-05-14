@@ -68,6 +68,22 @@ public class StaffService {
         return mapToDto(staffGuardado);
     }
 
+    public Optional<StaffResponseDTO> actualizar(Long nro, StaffRequestDTO dto) {
+        return staffRepository.findById(nro).map(existente -> {
+            Especialidad especialidad = especialidadRepository
+                    .findById(dto.getCod_especialidad())
+                    .orElseThrow(() ->
+                            new RuntimeException("Especialidad no encontrada"));
+            existente.setNumrun(dto.getNumrun());
+            existente.setNombre(dto.getNombre());
+            existente.setP_apellido(dto.getP_apellido());
+            existente.setM_apellido(dto.getM_apellido());
+            existente.setNombreesp(especialidad);
+            Staff actualizado = staffRepository.save(existente);
+            return mapToDto(actualizado);
+        });
+    }
+
     public void eliminar(Long nro){
         staffRepository.deleteById(nro);
     }
