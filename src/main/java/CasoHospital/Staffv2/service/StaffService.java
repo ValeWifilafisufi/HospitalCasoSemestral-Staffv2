@@ -74,7 +74,6 @@ public class StaffService {
                     .findById(dto.getCod_especialidad())
                     .orElseThrow(() ->
                             new RuntimeException("Especialidad no encontrada"));
-            existente.setNumrun(dto.getNumrun());
             existente.setNombre(dto.getNombre());
             existente.setP_apellido(dto.getP_apellido());
             existente.setM_apellido(dto.getM_apellido());
