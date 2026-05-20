@@ -16,8 +16,8 @@ public class StaffRequestDTO {
 
     @NotBlank(message = "El numero de rut no puede estar vacio")
     @Pattern(
-            regexp = "^[0-9]{7,8}-[0-9kK]$",
-            message =  "El run debe tener formato 12345678-9 o 12345678-K"
+            regexp = "^[0-9]{1,2}\\.[0-9]{3}\\.[0-9]{3}-[0-9kK]$",
+            message = "El run debe tener formato 12.345.678-9"
     )
     private String numrun;
 

@@ -47,16 +47,16 @@ public class DataInitializer implements CommandLineRunner {
 
         // STAFF
 
-        staffRepository.save(new Staff(null, "12345678-9", "Juan", "Perez", "Gonzalez", esp1));
-        staffRepository.save(new Staff(null, "23456789-K", "Maria", "Lopez", "Rojas", esp2));
-        staffRepository.save(new Staff(null, "34567890-1", "Carlos", "Muñoz", "Silva", esp3));
-        staffRepository.save(new Staff(null, "45678901-2", "Fernanda", "Torres", "Diaz", esp4));
-        staffRepository.save(new Staff(null, "56789012-3", "Ricardo", "Vargas", "Soto", esp5));
-        staffRepository.save(new Staff(null, "67890123-4", "Camila", "Herrera", "Castro", esp6));
-        staffRepository.save(new Staff(null, "78901234-5", "Daniel", "Morales", "Araya", esp7));
-        staffRepository.save(new Staff(null, "89012345-6", "Valentina", "Fuentes", "Navarro", esp8));
-        staffRepository.save(new Staff(null, "90123456-7", "Sebastian", "Contreras", "Molina", esp9));
-        staffRepository.save(new Staff(null, "11222333-8", "Paula", "Reyes", "Espinoza", esp10));
+        staffRepository.save(new Staff(null, "12.345.678-9", "Juan", "Perez", "Gonzalez", esp1));
+        staffRepository.save(new Staff(null, "23.456.789-K", "Maria", "Lopez", "Rojas", esp2));
+        staffRepository.save(new Staff(null, "34.567.890-1", "Carlos", "Muñoz", "Silva", esp3));
+        staffRepository.save(new Staff(null, "45.678.901-2", "Fernanda", "Torres", "Diaz", esp4));
+        staffRepository.save(new Staff(null, "56.789.012-3", "Ricardo", "Vargas", "Soto", esp5));
+        staffRepository.save(new Staff(null, "67.890.123-4", "Camila", "Herrera", "Castro", esp6));
+        staffRepository.save(new Staff(null, "78.901.234-5", "Daniel", "Morales", "Araya", esp7));
+        staffRepository.save(new Staff(null, "89.012.345-6", "Valentina", "Fuentes", "Navarro", esp8));
+        staffRepository.save(new Staff(null, "90.123.456-7", "Sebastian", "Contreras", "Molina", esp9));
+        staffRepository.save(new Staff(null, "11.222.333-8", "Paula", "Reyes", "Espinoza", esp10));
 
         log.info("Datos de prueba insertados correctamente.");
     }
