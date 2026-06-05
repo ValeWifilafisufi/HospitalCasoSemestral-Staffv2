@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -20,6 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "Gestion de staff", description = "Endpoints para administrar el sistema de Previsiones de el Hospital")
 public class StaffController {
+
+    @Autowired
     private final StaffService staffService;
 
     //-----------------BUSCAR A TODO EL STAFF-----------
@@ -66,15 +69,28 @@ public class StaffController {
         return ResponseEntity.status(201).body(staffService.guardar(staff));
     }
 
+
+    //-----------------ACTUALIZAR STAFF----------
+    @Operation(summary = "Actualizacion del staff", description = "Se actualiza el staff mediante el numero de registro")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Staff actualizado correctamente"),
+            @ApiResponse(responseCode = "404", description = "El numero de registro ingresado no coincide con ningun staff")
+    })
     @PutMapping("/{nro}")
-    public ResponseEntity<StaffResponseDTO> actualizar(@PathVariable Long nro, @Valid @RequestBody StaffRequestDTO dto){
+    public ResponseEntity<StaffResponseDTO> actualizar(@Parameter(description = "numero de registro para busc ar al staff", example = "1") @PathVariable Long nro, @Valid @RequestBody StaffRequestDTO dto){
         return staffService.actualizar(nro, dto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    //-----------------ELIMINAR STAFF----------
+    @Operation(summary = "Elimicacion del staff", description = "Se elimina el staff mediante el numero de registro")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Staff eliminado correctamente"),
+            @ApiResponse(responseCode = "404", description = "El numero de registro ingresado no coincide con ningun staff")
+    })
     @DeleteMapping("/{nro}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long nro){
+    public ResponseEntity<Void> eliminar(@Parameter(description = "Numero de registro para buscar al staff", example = "1") @PathVariable Long nro){
         if (staffService.buscarPorNroRegistro(nro).isEmpty()){
             return ResponseEntity.notFound().build();
         }
