@@ -1,21 +1,24 @@
 package CasoHospital.Staffv2.assemblers;
 
+import CasoHospital.Staffv2.controller.StaffController;
 import CasoHospital.Staffv2.controller.StaffControllerV2;
+import CasoHospital.Staffv2.dtos.StaffResponseDTO;
 import CasoHospital.Staffv2.model.Staff;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class StaffModelAssembler {
+public class StaffModelAssembler implements RepresentationModelAssembler<StaffResponseDTO, EntityModel<StaffResponseDTO>> {
 
     @Override
-    public EntityModel<Staff> toModel(Staff Staff) {
+    public EntityModel<StaffResponseDTO> toModel(StaffResponseDTO Staff) {
         return EntityModel.of(Staff,
-                linkTo(methodOn(StaffControllerV2.class).(carrera.getCodigo())).withSelfRel(),
-                linkTo(methodOn(StaffControllerV2.class).getAllCarreras()).withRel("carreras"));
+                linkTo(methodOn(StaffController.class).obtenerPorNroRe(Staff.getNum_registro())).withSelfRel(),
+                linkTo(methodOn(StaffController.class).obtenerTodos()).withRel("Staff"));
     }
     }
 
