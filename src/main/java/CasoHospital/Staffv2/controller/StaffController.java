@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/staff")
 @RequiredArgsConstructor
-@Tag(name = "Gestion de staff", description = "Endpoints para administrar el sistema de Previsiones de el Hospital")
+@Tag(name = "Gestion de staff V1", description = "Endpoints para administrar el sistema de Previsiones de el Hospital")
 public class StaffController {
 
     @Autowired
