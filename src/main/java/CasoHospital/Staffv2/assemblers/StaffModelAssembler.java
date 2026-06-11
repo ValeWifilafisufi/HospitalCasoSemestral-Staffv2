@@ -18,7 +18,7 @@ public class StaffModelAssembler implements RepresentationModelAssembler<StaffRe
                         .withSelfRel(),
                 linkTo(methodOn(StaffControllerV2.class)
                         .obtenerTodos())
-                        .withRel("todos-los-staff")
+                        .withRel("Todos-los-staff")
         );
     }
 }

@@ -2,11 +2,14 @@ package CasoHospital.Staffv2.service;
 
 import CasoHospital.Staffv2.dtos.StaffRequestDTO;
 import CasoHospital.Staffv2.dtos.StaffResponseDTO;
+import CasoHospital.Staffv2.exception.RecursoNoEncontradoException;
 import CasoHospital.Staffv2.model.Especialidad;
 import CasoHospital.Staffv2.model.Staff;
 import CasoHospital.Staffv2.repository.EspecialidadRepository;
 import CasoHospital.Staffv2.repository.StaffRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,22 +33,20 @@ public class StaffService {
                 staff.getNombreesp().getNombreesp()
         );
     }
-    public List<StaffResponseDTO> obtenerTodos() {
-        return staffRepository.findAll().stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
+    public Page<StaffResponseDTO> obtenerTodos(Pageable pageable) {
+        return staffRepository.findAll(pageable).map(this::mapToDto);
     }
 
-    public Optional<StaffResponseDTO> buscarPorNroRegistro(Long numRegistro) {
-        return staffRepository.findById(numRegistro)
-                .map(this::mapToDto);
+    public StaffResponseDTO buscarPorNroRegistro(Long numRegistro) {
+        Staff staff = staffRepository.findById(numRegistro).orElseThrow(() -> new RecursoNoEncontradoException("No existe un staff con numero de registro "+ numRegistro));
+        return mapToDto(staff);
     }
 
-    public List<StaffResponseDTO> buscarPorRun(String numrun) {
-        return staffRepository.findByNumrunContainingIgnoreCase(numrun)
-                .stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
+    public StaffResponseDTO buscarPorRun(String numrun){
+        Staff staff = staffRepository
+                .findByNumrunIgnoreCase(numrun)
+                .orElseThrow(() ->new RecursoNoEncontradoException("No existe un funcionario con RUN "+ numrun));
+        return mapToDto(staff);
     }
 
     public StaffResponseDTO guardar(StaffRequestDTO dto){
