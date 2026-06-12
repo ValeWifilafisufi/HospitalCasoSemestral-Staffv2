@@ -13,11 +13,11 @@ public class StaffModelAssembler implements RepresentationModelAssembler<StaffRe
     @Override
     public EntityModel<StaffResponseDTO> toModel(StaffResponseDTO staff) {
         return EntityModel.of(staff,
-                linkTo(methodOn(StaffControllerV2.class)
+                linkTo(methodOn(StaffController.class)
                         .obtenerPorNroRe(staff.getNum_registro()))
                         .withSelfRel(),
-                linkTo(methodOn(StaffControllerV2.class)
-                        .obtenerTodos())
+                linkTo(methodOn(StaffController.class)
+                        .obtenerTodos(Pageable.unpaged()))
                         .withRel("Todos-los-staff")
         );
     }

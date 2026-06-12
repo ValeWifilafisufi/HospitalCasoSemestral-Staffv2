@@ -33,31 +33,26 @@ public class StaffService {
                 staff.getNombreesp().getNombreesp()
         );
     }
+
     public Page<StaffResponseDTO> obtenerTodos(Pageable pageable) {
         return staffRepository.findAll(pageable).map(this::mapToDto);
     }
 
-    public StaffResponseDTO buscarPorNroRegistro(Long numRegistro) {
-        Staff staff = staffRepository.findById(numRegistro).orElseThrow(() -> new RecursoNoEncontradoException("No existe un staff con numero de registro "+ numRegistro));
-        return mapToDto(staff);
+    public Optional<StaffResponseDTO> buscarPorNroRegistro(Long numRegistro) {
+        return staffRepository.findById(numRegistro).map(this::mapToDto);
     }
 
-    public StaffResponseDTO buscarPorRun(String numrun){
-        Staff staff = staffRepository
-                .findByNumrunIgnoreCase(numrun)
-                .orElseThrow(() ->new RecursoNoEncontradoException("No existe un funcionario con RUN "+ numrun));
-        return mapToDto(staff);
+    public Optional<StaffResponseDTO> buscarPorRun(String numrun){
+        return staffRepository.findByNumrunIgnoreCase(numrun).map(this::mapToDto);
     }
 
+    @Transactional
     public StaffResponseDTO guardar(StaffRequestDTO dto){
-
         Especialidad especialidad = especialidadRepository
                 .findById(dto.getCod_especialidad())
-                .orElseThrow(() ->
-                        new RuntimeException("Especialidad no encontrada"));
+                .orElseThrow(() -> new RecursoNoEncontradoException("Especialidad no encontrada con código: " + dto.getCod_especialidad()));
 
         Staff nuevoStaff = new Staff();
-
         nuevoStaff.setNumrun(dto.getNumrun());
         nuevoStaff.setNombre(dto.getNombre());
         nuevoStaff.setP_apellido(dto.getP_apellido());
@@ -65,16 +60,15 @@ public class StaffService {
         nuevoStaff.setNombreesp(especialidad);
 
         Staff staffGuardado = staffRepository.save(nuevoStaff);
-
         return mapToDto(staffGuardado);
     }
 
+    @Transactional
     public Optional<StaffResponseDTO> actualizar(Long nro, StaffRequestDTO dto) {
         return staffRepository.findById(nro).map(existente -> {
             Especialidad especialidad = especialidadRepository
                     .findById(dto.getCod_especialidad())
-                    .orElseThrow(() ->
-                            new RuntimeException("Especialidad no encontrada"));
+                    .orElseThrow(() -> new RecursoNoEncontradoException("Especialidad no encontrada con código: " + dto.getCod_especialidad()));
             existente.setNombre(dto.getNombre());
             existente.setP_apellido(dto.getP_apellido());
             existente.setM_apellido(dto.getM_apellido());
@@ -84,7 +78,11 @@ public class StaffService {
         });
     }
 
+    @Transactional
     public void eliminar(Long nro){
+        if(!staffRepository.existsById(nro)){
+            throw new RecursoNoEncontradoException("No existe un staff con numero de registro " + nro);
+        }
         staffRepository.deleteById(nro);
     }
 }

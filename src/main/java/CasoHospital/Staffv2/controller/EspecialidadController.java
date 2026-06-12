@@ -22,13 +22,14 @@ public class EspecialidadController {
     private final EspecialidadService especialidadService;
 
     @GetMapping
-    public ResponseEntity<List<Especialidad>> obtenerTodos(){
-        return ResponseEntity.ok(especialidadService.obtenerTodas());
+    public ResponseEntity<Page<Especialidad>> obtenerTodos(@PageableDefault(size = 10) Pageable pageable){
+        return ResponseEntity.ok(especialidadService.obtenerTodas(pageable));
     }
 
     @GetMapping("/nombre/{nombre}")
-    public ResponseEntity<List<Especialidad>> obtenerPorNombre(@PathVariable String nombre){
-        return ResponseEntity.ok(
-                especialidadService.buscarPorNombre(nombre));
+    public ResponseEntity<Page<Especialidad>> obtenerPorNombre(
+            @PathVariable String nombre,
+            @PageableDefault(size = 10) Pageable pageable){
+        return ResponseEntity.ok(especialidadService.buscarPorNombre(nombre, pageable));
     }
 }
