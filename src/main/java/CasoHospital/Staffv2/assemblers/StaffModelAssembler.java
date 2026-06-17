@@ -1,7 +1,8 @@
 package CasoHospital.Staffv2.assemblers;
 
-import CasoHospital.Staffv2.controller.StaffControllerV2;
+import CasoHospital.Staffv2.controller.StaffController;
 import CasoHospital.Staffv2.dtos.StaffResponseDTO;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ public class StaffModelAssembler implements RepresentationModelAssembler<StaffRe
                         .obtenerPorNroRe(staff.getNum_registro()))
                         .withSelfRel(),
                 linkTo(methodOn(StaffController.class)
-                        .obtenerTodos(Pageable.unpaged()))
+                        .obtenerTodos(null,null))
                         .withRel("Todos-los-staff")
         );
     }
