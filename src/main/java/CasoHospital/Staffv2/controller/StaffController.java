@@ -1,8 +1,8 @@
 package CasoHospital.Staffv2.controller;
 
+import CasoHospital.Staffv2.assemblers.StaffModelAssembler;
 import CasoHospital.Staffv2.dtos.StaffRequestDTO;
 import CasoHospital.Staffv2.dtos.StaffResponseDTO;
-import CasoHospital.Staffv2.model.Staff;
 import CasoHospital.Staffv2.service.StaffService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,15 +11,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/staff")
 @RequiredArgsConstructor
-@Tag(name = "Gestion de staff V1", description = "Endpoints para administrar el sistema de Previsiones de el Hospital")
+@Tag(name = "Gestion de staff V1", description = "Endpoints para administrar el sistema de Staff del Hospital")
 public class StaffController {
 
     private final StaffService staffService;
@@ -28,22 +32,12 @@ public class StaffController {
     //-----------------OBTENER TODO EL STAFF ----------
     @Operation(summary = "Obtener todo el staff", description = "Retorna una lista paginada con todo el staff registrado")
     @GetMapping
-    public ResponseEntity<CollectionModel<EntityModel<StaffResponseDTO>>> obtenerTodos(
-            @Parameter(description = "Pagina") @PageableDefault(size = 10) Pageable pageable) {
+    public ResponseEntity<PagedModel<EntityModel<StaffResponseDTO>>> obtenerTodos(
+            @PageableDefault(page = 0, size = 10) Pageable pageable,
+            PagedResourcesAssembler<StaffResponseDTO> pagedAssembler) {
 
         Page<StaffResponseDTO> paginaStaff = staffService.obtenerTodos(pageable);
-
-        List<EntityModel<StaffResponseDTO>> staff = paginaStaff.getContent()
-                .stream()
-                .map(assembler::toModel)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(
-                CollectionModel.of(
-                        staff,
-                        linkTo(methodOn(StaffController.class).obtenerTodos(pageable)).withSelfRel()
-                )
-        );
+        return ResponseEntity.ok(pagedAssembler.toModel(paginaStaff, assembler));
     }
 
     //-----------------BUSCAR POR NRO REGISTRO----------
@@ -55,6 +49,7 @@ public class StaffController {
     @GetMapping("/nro_registro/{nro_re}")
     public ResponseEntity<EntityModel<StaffResponseDTO>> obtenerPorNroRe(
             @Parameter(description = "Numero de registro para buscar", example = "1") @PathVariable Long nro_re) {
+
         return staffService.buscarPorNroRegistro(nro_re)
                 .map(assembler::toModel)
                 .map(ResponseEntity::ok)
@@ -70,6 +65,7 @@ public class StaffController {
     @GetMapping("/run/{run}")
     public ResponseEntity<EntityModel<StaffResponseDTO>> obtenerPorRun(
             @Parameter(description = "Rut para buscar", example = "11.111.111-1") @PathVariable String run) {
+
         return staffService.buscarPorRun(run)
                 .map(assembler::toModel)
                 .map(ResponseEntity::ok)
@@ -84,6 +80,7 @@ public class StaffController {
     @PostMapping
     public ResponseEntity<EntityModel<StaffResponseDTO>> guardar(
             @Valid @RequestBody StaffRequestDTO dto) {
+
         StaffResponseDTO staffGuardado = staffService.guardar(dto);
         return ResponseEntity
                 .status(201)
@@ -100,6 +97,7 @@ public class StaffController {
     public ResponseEntity<EntityModel<StaffResponseDTO>> actualizar(
             @Parameter(description = "Numero de registro para buscar", example = "1") @PathVariable Long nro,
             @Valid @RequestBody StaffRequestDTO dto) {
+
         return staffService.actualizar(nro, dto)
                 .map(assembler::toModel)
                 .map(ResponseEntity::ok)
@@ -115,6 +113,7 @@ public class StaffController {
     @DeleteMapping("/{nro}")
     public ResponseEntity<Void> eliminar(
             @Parameter(description = "Numero de registro para buscar", example = "1") @PathVariable Long nro) {
+
         if (staffService.buscarPorNroRegistro(nro).isEmpty()) {
             return ResponseEntity.notFound().build();
         }

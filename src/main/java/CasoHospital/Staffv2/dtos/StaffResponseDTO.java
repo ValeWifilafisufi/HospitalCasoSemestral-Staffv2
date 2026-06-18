@@ -1,6 +1,5 @@
 package CasoHospital.Staffv2.dtos;
 
-import CasoHospital.Staffv2.model.Especialidad;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;

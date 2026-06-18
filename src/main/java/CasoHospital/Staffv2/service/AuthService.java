@@ -1,5 +1,7 @@
 package CasoHospital.Staffv2.service;
 
+import CasoHospital.Staffv2.dtos.AuthRequest;
+import CasoHospital.Staffv2.dtos.AuthResponse;
 import CasoHospital.Staffv2.model.Role;
 import CasoHospital.Staffv2.model.User;
 import CasoHospital.Staffv2.repository.UserRepository;
