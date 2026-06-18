@@ -1,7 +1,11 @@
-package CasoHospital.Staffv2.config;
-
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,11 +13,26 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI customOpenAPI(){
+    public OpenAPI customOpenAPI() {
         return new OpenAPI()
+                .addServersItem(new Server().url("http://localhost:8500"))
                 .info(new Info()
-                        .title("API 2026 Staff Hospital")
-                        .version("1.0")
-                        .description("Documentacion de la API del staff para el sistema de Hspital"));
+                        .title("API de Staff")
+                        .version("1.0.0")
+                        .description("Documentación de la API del staff para el sistema de Hospital")
+                        .contact(new Contact()
+                                .name("Equipo técnico")
+                                .email("comunicaciones.hgf@redsalud.gob.cl")
+                                .url("https://www.hospitalfricke.cl/"))
+                        .license(new License()
+                                .name("Hospital Viña del Mar")
+                                .url("https://www.hospitalfricke.cl/pacientes")))
+                .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
+                .components(new Components()
+                        .addSecuritySchemes("bearerAuth", new SecurityScheme()
+                                .name("bearerAuth")
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT")));
     }
 }

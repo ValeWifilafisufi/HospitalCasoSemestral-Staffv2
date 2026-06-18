@@ -30,7 +30,7 @@ public class StaffController {
     private final StaffModelAssembler assembler;
 
     //-----------------OBTENER TODO EL STAFF ----------
-    @Operation(summary = "Obtener todo el staff", description = "Retorna una lista paginada con todo el staff registrado")
+    @Operation(summary = "Obtener todo el staff", description = "Retorna una lista con todo el staff registrado")
     @GetMapping
     public ResponseEntity<PagedModel<EntityModel<StaffResponseDTO>>> obtenerTodos(
             @PageableDefault(page = 0, size = 10) Pageable pageable,
