@@ -53,7 +53,6 @@ public class DataLoader implements CommandLineRunner {
             log.info("El usuario administrador (Maty) ya existe en la base de datos.");
         }
 
-        // 2. CREACIÓN DE DATOS (STAFF Y ESPECIALIDADES)
         if (staffRepository.count() > 0 || especialidadRepository.count() > 0) {
             log.info("La BD de Staff/Especialidad ya tiene datos. Saltando carga inicial de Faker.");
             return;
@@ -63,7 +62,6 @@ public class DataLoader implements CommandLineRunner {
         Faker faker = new Faker(Locale.forLanguageTag("es"));
         List<Especialidad> especialidadesGuardadas = new ArrayList<>();
 
-        // LISTA ACTUALIZADA CON LAS 12 ESPECIALIDADES MÁS COMUNES
         String[] nombresReales = {
                 "Cardiología", "Pediatría", "Dermatología", "Traumatología y Ortopedia",
                 "Ginecología y Obstetricia", "Neurología", "Oftalmología", "Psiquiatría",
@@ -94,6 +92,6 @@ public class DataLoader implements CommandLineRunner {
             staffRepository.save(staff);
         }
 
-        log.info("¡Carga masiva de 100 médicos completada con éxito!");
+        log.info("¡Carga de 100 médicos completada con éxito!");
     }
 }

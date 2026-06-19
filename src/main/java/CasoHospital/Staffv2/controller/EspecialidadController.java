@@ -26,7 +26,7 @@ public class EspecialidadController {
 
     private final EspecialidadService especialidadService;
 
-    @Operation(summary = "Obtener todas las especialidades", description = "Retorna una lista paginada de las especialidades del hospital")
+    @Operation(summary = "Obtener todas las especialidades", description = "Retorna una lista de las especialidades del hospital")
     @GetMapping
     public ResponseEntity<PagedModel<EntityModel<Especialidad>>> obtenerTodos(
             @ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable,

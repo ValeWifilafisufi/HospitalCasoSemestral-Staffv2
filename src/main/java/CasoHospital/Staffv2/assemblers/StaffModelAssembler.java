@@ -18,7 +18,6 @@ public class StaffModelAssembler implements RepresentationModelAssembler<StaffRe
                 linkTo(methodOn(StaffController.class)
                         .obtenerPorNroRe(staff.getNum_registro()))
                         .withSelfRel(),
-                // ¡Aquí está la magia! Le pasamos (null, null) porque el método en el controller ahora pide 2 parámetros
                 linkTo(methodOn(StaffController.class)
                         .obtenerTodos(null, null))
                         .withRel("Todos-los-staff")

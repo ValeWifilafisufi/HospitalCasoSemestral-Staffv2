@@ -11,7 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.boot.test.mock.mockito.MockBean;import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +27,7 @@ import CasoHospital.Staffv2.security.JwtService;
 
 @WebMvcTest(EspecialidadController.class)
 @ActiveProfiles("test")
-@WithMockUser // Para simular que tenemos el token
+@WithMockUser
 @DisplayName("Tests Unitarios - EspecialidadController")
 public class EspecialidadControllerTest {
 

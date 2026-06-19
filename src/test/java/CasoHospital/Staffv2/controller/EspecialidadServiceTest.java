@@ -128,7 +128,7 @@ public class EspecialidadServiceTest {
         Especialidad resultado = especialidadService.actualizar(1L, actualizacion);
 
         assertNotNull(resultado);
-        assertEquals("Medicina Interna", resultado.getNombreesp()); // Verificamos que se actualizó el nombre
+        assertEquals("Medicina Interna", resultado.getNombreesp());
         verify(especialidadRepository, times(1)).save(existente);
     }
 

@@ -85,7 +85,6 @@ public class StaffControllerTest {
         doc.setNum_registro(1L);
         doc.setNombre("Claudio");
 
-        // ACÁ EL ARREGLO: usamos buscarPorNroRegistro y lo envolvemos en Optional.of()
         when(staffService.buscarPorNroRegistro(anyLong())).thenReturn(Optional.of(doc));
 
         mockMvc.perform(get("/api/staff/nro_registro/1")
@@ -101,7 +100,7 @@ public class StaffControllerTest {
         request.setNumrun("19.888.777-6");
         request.setNombre("Juan");
         request.setP_apellido("Perez");
-        request.setM_apellido("Gonzalez"); // ¡Faltaba el materno!
+        request.setM_apellido("Gonzalez");
         request.setCod_especialidad(1L);
 
         StaffResponseDTO response = new StaffResponseDTO();
@@ -126,10 +125,10 @@ public class StaffControllerTest {
         Long idStaff = 1L;
 
         StaffRequestDTO updateRequest = new StaffRequestDTO();
-        updateRequest.setNumrun("19.888.777-6"); // ¡Faltaba el rut!
+        updateRequest.setNumrun("19.888.777-6");
         updateRequest.setNombre("Juanito");
-        updateRequest.setP_apellido("Perez"); // ¡Faltaba el paterno!
-        updateRequest.setM_apellido("Gonzalez"); // ¡Faltaba el materno!
+        updateRequest.setP_apellido("Perez");
+        updateRequest.setM_apellido("Gonzalez");
         updateRequest.setCod_especialidad(2L);
 
         StaffResponseDTO response = new StaffResponseDTO();
@@ -152,8 +151,6 @@ public class StaffControllerTest {
     @DisplayName("GIVEN: ID válido WHEN: DELETE /api/staff/{id} THEN: Retorna 204 No Content")
     void shouldDeleteStaff() throws Exception {
         Long idStaff = 1L;
-
-        // Le decimos al mock que cuando el Controller pregunte si existe, le diga que SÍ
         when(staffService.buscarPorNroRegistro(idStaff)).thenReturn(Optional.of(new StaffResponseDTO()));
         doNothing().when(staffService).eliminar(idStaff);
 
