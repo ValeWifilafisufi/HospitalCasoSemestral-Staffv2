@@ -36,14 +36,12 @@ public class EspecialidadControllerTest {
     @MockBean
     private EspecialidadService especialidadService;
 
-    // Engañamos al filtro de seguridad dándole el servicio que pide
     @MockBean
     private JwtService jwtService;
 
     @Test
     @DisplayName("GIVEN: Existen especialidades WHEN: GET /api/especialidad THEN: Retorna 200 OK y la lista paginada")
     void shouldReturnTodasLasEspecialidades() throws Exception {
-        // 1. Preparar datos falsos
         Especialidad esp1 = new Especialidad();
         esp1.setCod_especialidad(1L);
         esp1.setNombreesp("Cardiología");
@@ -55,10 +53,8 @@ public class EspecialidadControllerTest {
         List<Especialidad> listaFalsa = Arrays.asList(esp1, esp2);
         Page<Especialidad> paginaFalsa = new PageImpl<>(listaFalsa);
 
-        // 2. Comportamiento del Mock
         when(especialidadService.obtenerTodas(any(Pageable.class))).thenReturn(paginaFalsa);
 
-        // 3. Ejecutar y Verificar
         mockMvc.perform(get("/api/especialidad")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -69,17 +65,14 @@ public class EspecialidadControllerTest {
     @Test
     @DisplayName("GIVEN: Nombre válido WHEN: GET /api/especialidad/nombre/{nombre} THEN: Retorna 200 OK")
     void shouldReturnEspecialidadPorNombre() throws Exception {
-        // 1. Preparar datos
         Especialidad esp = new Especialidad();
         esp.setCod_especialidad(1L);
         esp.setNombreesp("Neurología");
 
         Page<Especialidad> paginaFalsa = new PageImpl<>(List.of(esp));
 
-        // 2. Comportamiento del Mock
         when(especialidadService.buscarPorNombre(anyString(), any(Pageable.class))).thenReturn(paginaFalsa);
 
-        // 3. Ejecutar y Verificar
         mockMvc.perform(get("/api/especialidad/nombre/Neurología")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

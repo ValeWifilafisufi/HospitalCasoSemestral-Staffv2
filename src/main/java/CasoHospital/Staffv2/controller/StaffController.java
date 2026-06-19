@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -33,8 +34,8 @@ public class StaffController {
     @Operation(summary = "Obtener todo el staff", description = "Retorna una lista con todo el staff registrado")
     @GetMapping
     public ResponseEntity<PagedModel<EntityModel<StaffResponseDTO>>> obtenerTodos(
-            @PageableDefault(page = 0, size = 10) Pageable pageable,
-            PagedResourcesAssembler<StaffResponseDTO> pagedAssembler) {
+            @ParameterObject @PageableDefault(page = 0, size = 10) Pageable pageable,
+            @Parameter(hidden = true) PagedResourcesAssembler<StaffResponseDTO> pagedAssembler) {
 
         Page<StaffResponseDTO> paginaStaff = staffService.obtenerTodos(pageable);
         return ResponseEntity.ok(pagedAssembler.toModel(paginaStaff, assembler));
@@ -48,7 +49,8 @@ public class StaffController {
     })
     @GetMapping("/nro_registro/{nro_re}")
     public ResponseEntity<EntityModel<StaffResponseDTO>> obtenerPorNroRe(
-            @Parameter(description = "Numero de registro para buscar", example = "1") @PathVariable Long nro_re) {
+            @Parameter(description = "Número de registro para buscar", example = "1")
+            @PathVariable Long nro_re) {
 
         return staffService.buscarPorNroRegistro(nro_re)
                 .map(assembler::toModel)
@@ -64,7 +66,8 @@ public class StaffController {
     })
     @GetMapping("/run/{run}")
     public ResponseEntity<EntityModel<StaffResponseDTO>> obtenerPorRun(
-            @Parameter(description = "Rut para buscar", example = "11.111.111-1") @PathVariable String run) {
+            @Parameter(description = "Rut del miembro del staff a buscar", example = "11.111.111-1")
+            @PathVariable String run) {
 
         return staffService.buscarPorRun(run)
                 .map(assembler::toModel)
@@ -95,7 +98,8 @@ public class StaffController {
     })
     @PutMapping("/{nro}")
     public ResponseEntity<EntityModel<StaffResponseDTO>> actualizar(
-            @Parameter(description = "Numero de registro para buscar", example = "1") @PathVariable Long nro,
+            @Parameter(description = "Número de registro del staff a actualizar", example = "1")
+            @PathVariable Long nro,
             @Valid @RequestBody StaffRequestDTO dto) {
 
         return staffService.actualizar(nro, dto)
@@ -112,7 +116,8 @@ public class StaffController {
     })
     @DeleteMapping("/{nro}")
     public ResponseEntity<Void> eliminar(
-            @Parameter(description = "Numero de registro para buscar", example = "1") @PathVariable Long nro) {
+            @Parameter(description = "Número de registro del staff a eliminar", example = "2")
+            @PathVariable Long nro) {
 
         if (staffService.buscarPorNroRegistro(nro).isEmpty()) {
             return ResponseEntity.notFound().build();

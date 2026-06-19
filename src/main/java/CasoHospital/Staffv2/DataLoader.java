@@ -27,6 +27,7 @@ public class DataLoader implements CommandLineRunner {
     private final EspecialidadRepository especialidadRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
     @Override
     public void run(String... args) {
 
@@ -38,27 +39,37 @@ public class DataLoader implements CommandLineRunner {
             userRepository.save(adminUser);
             log.info("Usuario administrador creado automáticamente (username: valentina).");
         } else {
-            log.info("El usuario administrador ya existe en la base de datos.");
+            log.info("El usuario administrador (valentina) ya existe en la base de datos.");
         }
 
-        // 2. CREACIÓN DE DATOS FALSOS (STAFF Y ESPECIALIDADES)
+        if (userRepository.findByUsername("Maty").isEmpty()) {
+            User adminUser2 = new User();
+            adminUser2.setUsername("Maty");
+            adminUser2.setPassword(passwordEncoder.encode("1234"));
+            adminUser2.setRole(Role.ADMIN);
+            userRepository.save(adminUser2);
+            log.info("Usuario administrador creado automáticamente (username: Maty).");
+        } else {
+            log.info("El usuario administrador (Maty) ya existe en la base de datos.");
+        }
+
+        // 2. CREACIÓN DE DATOS (STAFF Y ESPECIALIDADES)
         if (staffRepository.count() > 0 || especialidadRepository.count() > 0) {
             log.info("La BD de Staff/Especialidad ya tiene datos. Saltando carga inicial de Faker.");
             return;
         }
 
-        log.info("Iniciando carga de datos médicos...");
+        log.info("Iniciando carga masiva de datos médicos...");
         Faker faker = new Faker(Locale.forLanguageTag("es"));
         List<Especialidad> especialidadesGuardadas = new ArrayList<>();
 
-        // LISTA DE ESPECIALIDADES REALES
+        // LISTA ACTUALIZADA CON LAS 12 ESPECIALIDADES MÁS COMUNES
         String[] nombresReales = {
-                "Medicina General", "Pediatría", "Cardiología", "Dermatología",
-                "Ginecología", "Neurología", "Oftalmología", "Traumatología",
-                "Psiquiatría", "Oncología"
+                "Cardiología", "Pediatría", "Dermatología", "Traumatología y Ortopedia",
+                "Ginecología y Obstetricia", "Neurología", "Oftalmología", "Psiquiatría",
+                "Gastroenterología", "Cirugía General", "Medicina Interna", "Otorrinolaringología"
         };
 
-        // CREAMOS LAS 10 ESPECIALIDADES CON LOS NOMBRES DEL ARREGLO
         for (int i = 0; i < nombresReales.length; i++) {
             Especialidad esp = new Especialidad();
             esp.setCod_especialidad((long) (i + 1));
@@ -66,7 +77,7 @@ public class DataLoader implements CommandLineRunner {
             especialidadesGuardadas.add(especialidadRepository.save(esp));
         }
 
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 100; i++) {
             Staff staff = new Staff();
             String runFake = faker.number().numberBetween(10, 99) + "." +
                     faker.number().numberBetween(100, 999) + "." +
@@ -76,11 +87,13 @@ public class DataLoader implements CommandLineRunner {
             staff.setNombre(faker.name().firstName());
             staff.setP_apellido(faker.name().lastName());
             staff.setM_apellido(faker.name().lastName());
+
             Especialidad espAleatoria = especialidadesGuardadas.get(faker.random().nextInt(especialidadesGuardadas.size()));
             staff.setNombreesp(espAleatoria);
+
             staffRepository.save(staff);
         }
 
-        log.info("¡Carga de datos exitosa!");
+        log.info("¡Carga masiva de 100 médicos completada con éxito!");
     }
 }
